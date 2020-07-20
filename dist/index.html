@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<title>Logging for javascript</title>
+	
+	<meta charset="utf-8">
+	
+	<script src="logfjs.js"></script>
+</head>
+<body>
+
+	<script type="text/javascript">
+		const LOGGER = new Logfjs("Index.html");
+
+		LOGGER.trace("This is trace message;");
+		LOGGER.debug("This is debug message;");
+		LOGGER.info("This is info message;");
+		LOGGER.warn("This is warn message;");
+		LOGGER.error("This is error message;");
+
+	</script>
+
+</body>
+</html>

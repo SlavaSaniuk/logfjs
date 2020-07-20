@@ -1,0 +1,27 @@
+{
+  "name": "logfjs",
+  "version": "1.0.0",
+  "description": "Logger library for javascript",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "keywords": [
+    "js",
+    "log",
+    "logger"
+  ],
+  "author": "SaniukVyacheslav <saniuk.vyacheslav.97@gmail.com>",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/cli": "^7.10.5",
+    "@babel/core": "^7.10.5",
+    "@babel/plugin-proposal-class-properties": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "path": "^0.12.7",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12"
+  }
+}
