@@ -7,7 +7,6 @@ export class Logfjs {
 	#clazz_name;
 	#current_appender;
 
-
 	//Constructor
 	constructor(a_clazz_name) {
 		//Map class names
@@ -25,22 +24,37 @@ export class Logfjs {
 	}
 
 	trace(message) {
-		this._log(message, levels.TRACE);
+		if (this._isLogEnabled(levels.TRACE))
+			this._log(message, levels.TRACE);
 	}
 
 	debug(message) {
-		this._log(message, levels.DEBUG);
+		if (this._isLogEnabled(levels.DEBUG))
+			this._log(message, levels.DEBUG);
 	}
 
 	info(message) {
-		this._log(message, levels.INFO);
+		if (this._isLogEnabled(levels.INFO))
+			this._log(message, levels.INFO);
 	}
 
 	warn(message) {
-		this._log(message, levels.WARN);
+		if (this._isLogEnabled(levels.WARN))
+			this._log(message, levels.WARN);
 	}
 
 	error(message) {
-		this._log(message, levels.ERROR);
+		if (this._isLogEnabled(levels.ERROR))
+			this._log(message, levels.ERROR);
+	}
+
+	/**                   
+	 * [_isLogEnabled - Check if log level available for logging.]
+	 * @param  {[LogfjsLoggerLevels#level]}  a_level [LogfjsLoggerLevel level.]
+	 * @return {Boolean}         [Return 'true' - if log level available.]
+	 */
+	_isLogEnabled(a_level) {
+		//Check if log available:
+		return LogfjsConfig.getInstance().getAvailableLoggerLevels().includes(a_level);
 	}
 }

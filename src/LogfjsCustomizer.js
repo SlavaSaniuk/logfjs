@@ -1,31 +1,18 @@
 import {LogfjsLoggerLevels as levels} from './LogfjsLoggerLevels.js';
 import {Logfjs} from './Logfjs.js';
 import {LogfjsConfig as config} from './LogfjsConfig.js';
+import {SpecialLogfjs} from './SpecialLogfjs.js';
 
 export class LogfjsCustomizer {
 
 	//Class variables
-	static #DEFAULT_LOGGER = new Logfjs("LogfjsCustomizer");
-	static CURRENT_LOGGEL_LEVEL; //Current installed logger level
-
-	constructor() {
-
-		if (LogfjsCustomizer.INSTANCE instanceof LogfjsCustomizer) {
-			return LogfjsCustomizer.INSTANCE;
-		}
-
-		LogfjsCustomizer.INSTANCE = this;
-
-	}
+	static #DEFAULT_LOGGER = new SpecialLogfjs("LogfjsCustomizer");
 
 	//Class methods
+	static initialize() {
 
-	static getInstance() {
-		return LogfjsCustomizer.INSTANCE;
-	}
-
-	init() {
-
+		//Call initialize() method in LogfjsConfig singleton
+		LogfjsConfig.getInstance().initialize();
 	}
 
 	static setLoggerLevel(a_level) {
@@ -41,7 +28,5 @@ export class LogfjsCustomizer {
 		this.#DEFAULT_LOGGER.info("Set logger level to [" +a_level +"] level;");
 		new config().getProperties().setLoggerLevel(a_level);
 	}
-
-
 
 }
