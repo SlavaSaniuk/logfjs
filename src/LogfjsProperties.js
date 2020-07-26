@@ -1,6 +1,8 @@
 export class LogfjsProperties {
 
-	#logger_level = null; //Property identified logger_level;
+	//Class variables
+	/** @type {LogfjsLoggerLevel} [Logger level] */
+	#logger_level = null;
 
 	setLoggerLevel(a_level) {
 		this.#logger_level = a_level;

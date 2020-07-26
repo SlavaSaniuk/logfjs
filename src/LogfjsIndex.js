@@ -9,5 +9,7 @@ import {SpecialLogfjs} from './SpecialLogfjs.js';
 //Create singleton instances
 /** @type {LogfjsConfig} [Singleton instance of {Log4jsConfig} class;] */
 const logfjsConfig = new LogfjsConfig();
+/** @type {LogfjsFactory} [Singleton instace of {Log4jsFactory} class;] */
+const logfjsFactory = new LogfjsFactory();
 
 export {Logfjs, LogfjsLoggerLevels, LogfjsCustomizer, LogfjsConfig, LogfjsProperties, LogfjsFactory};

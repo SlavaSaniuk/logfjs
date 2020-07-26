@@ -1,28 +1,51 @@
 import {Logfjs} from './Logfjs.js';
+import {LogfjsConfig} from './LogfjsConfig.js';
+import {SpecialLogfjs} from './SpecialLogfjs.js';
 
 export class LogfjsFactory {
 
-	//Class variables
+	/** @type {SpecialLogfjs} [Special logger for {LogfjsFactory} class.] */
+	static DEFAULT_LOGGER = new SpecialLogfjs("LogfjsFactory");
 
-	//Constructor
-	constructor() {
+	/**  
+	 * [constructor -  Construct new {LogfjsConfig} singleton instance.]
+	 * @return {[LogfjsFactory]} [Return {LogfjsConfig} singleton instance.]
+	 */
+	constructor() {	
+		//Singleton pattern
 		if (LogfjsFactory.INSTANCE instanceof LogfjsFactory) {
 			return LogfjsFactory.INSTANCE;
 		}
-
 		LogfjsFactory.INSTANCE = this;
 	}
 
-	//Class methods
+	/**  
+	 * [getInstance - Return current singleton instance of {LogfjsFactory} class.]
+	 * @return {[LogfjsFactory]} [Singleton instance of {LogfjsFactory} class.]
+	 */
+	static getInstance() {
+		this.DEFAULT_LOGGER.trace("Return singleton instance of [LogfjsFactory] class.");
+		return LogfjsFactory.INSTANCE;
+	}
+
 	/**
 	 * [Create new {Logfjs} logger instance for specified class name]
 	 * @param  {[String]} a_clazz_name [Class name for logger]
 	 * @return {[Logfjs]}              [{Logfjs} logger object]
 	 */
 	static getLogger(a_clazz_name) {
-		//Create logger for class
-		let logger = new Logfjs(a_clazz_name);
 
-		return logger;
+		//Check if LogfjsConfig initialized:
+		if (!LogfjsConfig.getInstance().isInitialized()) {
+			//Check if initialized defaults:
+			if (!LogfjsConfig.getInstance().isInitializedDefaults()) {
+				// Intitalized defaults:
+				this.DEFAULT_LOGGER.debug("Logfjs default configuration isn't initialized. Try to initialize it;");
+				LogfjsConfig.getInstance().initializeDefaults();
+			}
+		}
+
+		//Create logger for class
+		return new Logfjs(a_clazz_name);
 	}
 }

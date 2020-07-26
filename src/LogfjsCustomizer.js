@@ -11,8 +11,8 @@ export class LogfjsCustomizer {
 	//Class methods
 	static initialize() {
 
-		//Call initialize() method in LogfjsConfig singleton
-		LogfjsConfig.getInstance().initialize();
+		//Call initializeCustom() method in LogfjsConfig singleton:
+		LogfjsConfig.getInstance().initializeCustom();
 	}
 
 	static setLoggerLevel(a_level) {
@@ -26,7 +26,7 @@ export class LogfjsCustomizer {
 
 		//Try to set logger level:
 		this.#DEFAULT_LOGGER.info("Set logger level to [" +a_level +"] level;");
-		new config().getProperties().setLoggerLevel(a_level);
+		new config().getCustomProperties().setLoggerLevel(a_level);
 	}
 
 }
