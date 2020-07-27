@@ -5,6 +5,11 @@ import {SpecialLogfjs} from './SpecialLogfjs.js';
 import {LogfjsTimestamp} from './LogfjsTimestamp.js';
 import {LogfjsTimestampMode} from './LogfjsTimestampMode.js';
 
+/** 
+ * Common configuration class for control/manage purposes. 
+ * Class designed with singleton pattern. Comonly you don't need to use this class. 
+ * You may call {logfjsEnableDebug()} static method to enable logfjs debugging. 
+ */
 export class LogfjsConfig {
 
 	/** @type {LogfjsProperties} [Custom configuration properties instance;] */
@@ -56,7 +61,7 @@ export class LogfjsConfig {
 	}
 
 	/**  
-	 * [getCustomProperties - Return suctom configuration properties.]
+	 * [getCustomProperties - Return custom configuration properties.]
 	 * @return {[LogfjsProperties]} [Return current configuration properties.]
 	 */
 	getCustomProperties() {
@@ -64,7 +69,12 @@ export class LogfjsConfig {
 		return this.#CUSTOM_CONFIGURATION_PROPERTIES;
 	}
 
+	/**  
+	 * [getDefaultProperties - Return default confgiration properties.]
+	 * @return {[LogfjsProperties]} [Default configuration properties.]
+	 */
 	getDefaultProperties() {
+		// Return default configuration properties:
 		return this.#DEFAULT_CONFIGURATION_PROPERTIES;
 	}
 
@@ -145,7 +155,7 @@ export class LogfjsConfig {
 	 * @return {Boolean} [Return 'true' - if configuration is initialized.]
 	 */
 	isInitialized() {	
-		//Return initialized flag:
+		// Return initialized flag:
 		return this.#isInitialized;
 	}
 
@@ -154,7 +164,7 @@ export class LogfjsConfig {
 	 * @return {Boolean} [Return 'true' - if default configuration is initialized.]
 	 */
 	isInitializedDefaults() {
-		//Return initialized deffault flag;
+		// Return initialized deffault flag;
 		return this.#isInitializedDefaults;
 	}
 
@@ -167,7 +177,7 @@ export class LogfjsConfig {
 		LogfjsConfig.DEFAULT_LOGGER.trace(
 			"Initialize available logger levels with " +a_level.toString() +" value;");
 		
-		//Initialize log-levels arrays
+		// Initialize log levels arrays:
 		switch(a_level) {
 			case levels.TRACE: 
 				this.#available_log_levels = this.#available_log_levels.concat(levels.LEVELS_ARRAY);
@@ -191,8 +201,15 @@ export class LogfjsConfig {
 	 * [getAvailableLoggerLevels - Return {@ #available_log_levels} array.]
 	 * @return {[array]} [Return {@ #available_log_levels} array.]]
 	 */
-	getAvailableLoggerLevels() {		return this.#available_log_levels;	}
+	getAvailableLoggerLevels() {		
+		// Return availble logger levels:
+		return this.#available_log_levels;	
+	}
 
+	/**  
+	 * [_setTimestampMode - Set current timestamp mode in {LogfjsTimestamp} singletn instance.]
+	 * @param {[LogfjsTimestampMode]} a_mode [Mode for timestamp.]
+	 */
 	_setTimestampMode(a_mode) {
 		LogfjsConfig.DEFAULT_LOGGER.trace("Set current timestamp mode to " +a_mode.toString() +" mode;");
 
@@ -212,9 +229,12 @@ export class LogfjsConfig {
 		return this.#timestamp_mode;
 	}
 
-	/** [logfjsEnableDebug - Enable debug logging for logfjs library.] */
+	/**
+	 * [logfjsEnableDebug - Enable debug logging for logfjs library.] 
+	 * @return {[UNDEFINED]} [Nothing return.]
+	 */
 	static logfjsEnableDebug() {
-		//Enable debug flag
+		// Enable debug flag:
 		this.#IS_DEBUG_ENABLED = true;
 	}
 
@@ -223,9 +243,8 @@ export class LogfjsConfig {
 	 * @return {[Boolean]} [Return 'true' - if debug enabled.]
 	 */
 	static logfjsIsDebugEnabled() {
-		//Return debug flag
+		// Return debug flag:
 		return this.#IS_DEBUG_ENABLED;
 	}
-
 
 }

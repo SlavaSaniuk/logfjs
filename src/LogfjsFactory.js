@@ -2,17 +2,22 @@ import {Logfjs} from './Logfjs.js';
 import {LogfjsConfig} from './LogfjsConfig.js';
 import {SpecialLogfjs} from './SpecialLogfjs.js';
 
+/** 
+ *  Common entry point to create logger object. 
+ * Class designed with factory pattern. Use {getLogger()} static method 
+ * to create new logger object for specified class. 
+ */
 export class LogfjsFactory {
 
 	/** @type {SpecialLogfjs} [Special logger for {LogfjsFactory} class.] */
 	static DEFAULT_LOGGER = new SpecialLogfjs("LogfjsFactory");
 
 	/**  
-	 * [constructor -  Construct new {LogfjsConfig} singleton instance.]
-	 * @return {[LogfjsFactory]} [Return {LogfjsConfig} singleton instance.]
+	 * [constructor -  Construct new {LogfjsFactory} singleton instance.]
+	 * @return {[LogfjsFactory]} [Return {LogfjsFactory} singleton instance.]
 	 */
 	constructor() {	
-		//Singleton pattern
+		// Singleton pattern
 		if (LogfjsFactory.INSTANCE instanceof LogfjsFactory) {
 			return LogfjsFactory.INSTANCE;
 		}
@@ -35,9 +40,9 @@ export class LogfjsFactory {
 	 */
 	static getLogger(a_clazz_name) {
 
-		//Check if LogfjsConfig initialized:
+		// Check if LogfjsConfig initialized:
 		if (!LogfjsConfig.getInstance().isInitialized()) {
-			//Check if initialized defaults:
+			// Check if initialized defaults:
 			if (!LogfjsConfig.getInstance().isInitializedDefaults()) {
 				// Intitalized defaults:
 				this.DEFAULT_LOGGER.debug("Logfjs default configuration isn't initialized. Try to initialize it;");
@@ -45,7 +50,7 @@ export class LogfjsFactory {
 			}
 		}
 
-		//Create logger for class
+		// Create logger for class
 		return new Logfjs(a_clazz_name);
 	}
 }

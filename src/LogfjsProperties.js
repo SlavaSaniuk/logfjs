@@ -1,3 +1,8 @@
+/**
+ * Class that holds all confgurable properties for logfjs. Hold information about:
+ * 1) {LogfjsLoggerLevels} - logger notifications level;
+ * 2) {LogfjsTimestampMode} - logger timestamp mode.
+ */
 export class LogfjsProperties {
 
 	/** @type {LogfjsLoggerLevel} [Logger level] */
@@ -5,10 +10,18 @@ export class LogfjsProperties {
 	/** @type {LogfjsTimestampMode} [Mode for timestamp functionality] */
 	#timestamp_mode = null;
 
+	/**  
+	 * [setLoggerLevel - Set logger level.]
+	 * @param {[LogfjsLoggerLevels]} a_level [Loggenr notification level to set.]
+	 */
 	setLoggerLevel(a_level) {
 		this.#logger_level = a_level;
 	}
 
+	/**  
+	 * [getLoggerLevel - Return current logger notifications level.]
+	 * @return {[LogfjsLoggerLevels]} [Current logger level.]
+	 */
 	getLoggerLevel() {
 		return this.#logger_level;
 	}
@@ -28,4 +41,5 @@ export class LogfjsProperties {
 	getTimestampMode() {
 		return this.#timestamp_mode;
 	}
+
 }

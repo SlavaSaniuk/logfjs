@@ -1,9 +1,9 @@
 import {LogfjsTimestampMode} from './LogfjsTimestampMode.js';
 
 /** 
- * //////////////////////
- * /// SINGLETON ////////
- * //////////////////////
+ * Common entrypoint to gets and configure timestamp functionality.
+ * Class designed with singleton pattern. Use {get()} static method 
+ * to get current timestamp.
  */
 export class LogfjsTimestamp {
 
@@ -14,6 +14,11 @@ export class LogfjsTimestamp {
 	/** @type {[LogfjsTimestamp<ode]} [Current timestamp mode;] */
 	#timestamp_mode = null;
 
+	/**  
+	 * [constructor - Construct new {LogfjsTimestamp} singleton instance.]
+	 * @param  {[LogfjsTimestampMode]} a_timestamp_mode [Default timestamp mode.]
+	 * @return {[LogfjsTimestamp]} [{LogfjsTimestamp} singleton instance.]
+	 */
 	constructor(a_timestamp_mode) {
 
 		// Singleton pattern
@@ -33,6 +38,7 @@ export class LogfjsTimestamp {
 	 * @return {[LogfjsTimestamp]} [Singleton instance of {LogfjsTimestamp} class.]
 	 */
 	static getInstance() {
+		// Return current instance
 		return LogfjsTimestamp.INSTANSE;
 	}
 
@@ -41,6 +47,7 @@ export class LogfjsTimestamp {
 	 * @return {[String]} [Curent timestamp.]
 	 */
 	static get() {
+		// Return current timestamp:
 		return LogfjsTimestamp.getInstance()._get();
 	}
 
@@ -49,9 +56,16 @@ export class LogfjsTimestamp {
 	 * @return {[String]} [Current timestamp.]
 	 */
 	_get() {
+		// Return current timestamp with specified mode:
 		return this._getTimestampWithMode(new Date(), this._getTimestampModeOrDefault());
 	}
 
+	/**
+	 * [_getTimestampWithMode - Return current timestamp with specified mode.]
+	 * @param  {[Date]} a_date [Current data object.]
+	 * @param  {[LogfjsTimestampMode]} a_mode [Timestamp mode.]
+	 * @return {[String]}        [Current timestamp string with specified mode.]
+	 */
 	_getTimestampWithMode(a_date, a_mode) {
 		switch (a_mode) {
 			case LogfjsTimestampMode.NONE:
@@ -75,6 +89,7 @@ export class LogfjsTimestamp {
 	 * @return {[String]}        [Time string of specified date parameter.]
 	 */
 	_getTime(a_date) {
+		// Return only time string from specified date:
 		return a_date.getHours() +":" +a_date.getMinutes() +":" +a_date.getSeconds() +":" +a_date.getMilliseconds();
 	}
 
@@ -84,9 +99,15 @@ export class LogfjsTimestamp {
 	 * @return {[String]}        [Date string of specifed date parameter.]
 	 */
 	_getDate(a_date) {
+		// Return only date string from specified date:
 		return a_date.getFullYear() +"-" +a_date.getMonth() +"-" +a_date.getDate();
 	}
 
+	/**  
+	 * [_getTimestampModeOrDefault - Return current timestamp mode or default timestamp mode,
+	 * if current timestamp mode is not set.]
+	 * @return {[LogfjsTimestampMode]} [Timestamp mode.]
+	 */
 	_getTimestampModeOrDefault() {
 		// Check if timestamp mode not null:
 		if (this.#timestamp_mode == null)
@@ -94,6 +115,10 @@ export class LogfjsTimestamp {
 		return this.#timestamp_mode;
 	}
 
+	/**  
+	 * [_setTimestampMode - Set current timestamp mode.]
+	 * @param {[LogfjsTimestampMode]} a_mode [Timestamp mode.]
+	 */
 	_setTimestampMode(a_mode) {
 		// Map timestamp mode:
 		this.#timestamp_mode = a_mode;

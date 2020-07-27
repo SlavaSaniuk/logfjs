@@ -1,3 +1,7 @@
+/** 
+ * LogfjsTimestampMode hold all available timestamp mode 
+ * as static fields. Enum class.
+ */
 export class LogfjsTimestampMode {
 	/** @type {ENUM} ['NONE' mode - Disable timestamp functionality;] */	
 	static NONE = "NONE";
