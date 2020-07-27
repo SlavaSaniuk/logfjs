@@ -1,4 +1,5 @@
 import {LogfjsLoggerLevels as levels} from './LogfjsLoggerLevels.js';
+import {LogfjsTimestamp} from './LogfjsTimestamp.js';
 
 export class Logfjs {
 
@@ -17,7 +18,7 @@ export class Logfjs {
 	_log(message, level) {
 
 		//Appender string
-		let appender = this.#clazz_name +" [" +level +"]: ";
+		let appender = LogfjsTimestamp.get() +" " +this.#clazz_name +" [" +level +"]: ";
 
 		//Print message to console
 		console.log(appender + message);

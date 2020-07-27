@@ -2,6 +2,8 @@ import {LogfjsProperties as LogfjsProperties} from './LogfjsProperties.js';
 import {LogfjsLoggerLevels as levels} from './LogfjsLoggerLevels.js';
 import {Logfjs} from './Logfjs.js';
 import {SpecialLogfjs} from './SpecialLogfjs.js';
+import {LogfjsTimestamp} from './LogfjsTimestamp.js';
+import {LogfjsTimestampMode} from './LogfjsTimestampMode.js';
 
 export class LogfjsConfig {
 
@@ -11,17 +13,17 @@ export class LogfjsConfig {
 	#DEFAULT_CONFIGURATION_PROPERTIES = new LogfjsProperties();
 	/** @type {LogfjsProperties} [Current configuration properties instance;] */
 	#CURRENT_CONFIGURATION_PROPERTIES = new LogfjsProperties();
-	/** @type {LogfjsProperties} [Current configuration properties] */
-	#current_config = new LogfjsProperties();
 	/** @type {Boolean} [Flag thats indicate if custom config initialized;] */
 	#isInitialized = false;
-	/** @type {Boolean} [Flag indicate if default config is initialized] */
+	/** @type {Boolean} [Flag indicate if default config is initialized;] */
 	#isInitializedDefaults = false;
 	/** @type {Array} [Array hold available log levels;] */
 	#available_log_levels = [];
-	/** @type {Logfjs} [Default logger for {LogfjsConfig class}] */
+	/** @type {[LogfjsTimestampMode]} [Current timestamp mode;] */
+	#timestamp_mode = null;
+	/** @type {Logfjs} [Default logger for {LogfjsConfig} class;] */
 	static DEFAULT_LOGGER = new SpecialLogfjs("LogfjsConfig");
-	/** @type {Boolean} [Flag indicate if logfjs debug mode enabled] */
+	/** @type {Boolean} [Flag indicate if logfjs debug mode enabled;] */
 	static #IS_DEBUG_ENABLED = false;
 
 	/**
@@ -37,6 +39,7 @@ export class LogfjsConfig {
 
 		//Initialize default properties:
 		this.#DEFAULT_CONFIGURATION_PROPERTIES.setLoggerLevel(levels.DEBUG); // Default logger level - DEBUG;
+		this.#DEFAULT_CONFIGURATION_PROPERTIES.setTimestampMode(LogfjsTimestampMode.FULL); //Default timestamp mode - FULL;
 
 		//Freeze vars
 		Object.freeze(LogfjsConfig.DEFAULT_LOGGER); //Freeze logger
@@ -61,6 +64,10 @@ export class LogfjsConfig {
 		return this.#CUSTOM_CONFIGURATION_PROPERTIES;
 	}
 
+	getDefaultProperties() {
+		return this.#DEFAULT_CONFIGURATION_PROPERTIES;
+	}
+
 	/**  
 	 * [getCurrentProperties - Return current configuration properties.]
 	 * @return {[LogfjsProperties]} [Current confgiration properties.]
@@ -71,8 +78,8 @@ export class LogfjsConfig {
 	}
 
 	/**  
-	 * [_initialize - Initialize configuration properties: Method set logger level and set 
-	 * {#CURRENT_CONFIGURATION_PROPERTIES} object.]
+	 * [_initialize - Initialize configuration properties: Method set logger level, 
+	 * set timestamp mode, map specified config with {#CURRENT_CONFIGURATION_PROPERTIES} object.]
 	 * @param  {[type]} a_config [Configuration properties for intialization.]
 	 */
 	_initialize(a_config) {
@@ -85,6 +92,15 @@ export class LogfjsConfig {
 		else {
 			LogfjsConfig.DEFAULT_LOGGER.warn("Logger level in not specified. Use default loggel level;");
 			this.initAvailableLogLevels(this.#DEFAULT_CONFIGURATION_PROPERTIES.getLoggerLevel());
+		}
+
+		//Try to set timestamp mode:
+		if (LogfjsTimestampMode.TimestampModes.includes(a_config.getTimestampMode())) {
+				LogfjsConfig.DEFAULT_LOGGER.trace("Try to set timestamp mode to " +a_config.getTimestampMode() +" mode;");
+				this._setTimestampMode(a_config.getTimestampMode());
+		}else {
+			LogfjsConfig.DEFAULT_LOGGER.warn("Timestamp mode is not setted. Use default timestamp mode;");
+			this._setTimestampMode(this.#DEFAULT_CONFIGURATION_PROPERTIES.getTimestampMode());
 		}
 		
 		// Map current config with specified a_config
@@ -176,6 +192,25 @@ export class LogfjsConfig {
 	 * @return {[array]} [Return {@ #available_log_levels} array.]]
 	 */
 	getAvailableLoggerLevels() {		return this.#available_log_levels;	}
+
+	_setTimestampMode(a_mode) {
+		LogfjsConfig.DEFAULT_LOGGER.trace("Set current timestamp mode to " +a_mode.toString() +" mode;");
+
+		// Set timestamp mode in LogfjsTimestamp:
+		LogfjsTimestamp.getInstance()._setTimestampMode(a_mode);
+
+		// Map timestamp mode with specified parameter:
+		this.#timestamp_mode = a_mode;
+	}
+
+	/**  
+	 * [getTimestampMode - Return current timestamp mode.]
+	 * @return {[LogfjsTimestampMode]} [Current timestamp mode.]
+	 */
+	getTimestampMode() {
+		LogfjsConfig.DEFAULT_LOGGER.trace("Return current timestamp mode;");
+		return this.#timestamp_mode;
+	}
 
 	/** [logfjsEnableDebug - Enable debug logging for logfjs library.] */
 	static logfjsEnableDebug() {
