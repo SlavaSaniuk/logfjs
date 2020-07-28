@@ -4,8 +4,8 @@
   "description": "Logger library for javascript",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --config webpack.dev.config.js",
-    "build-prod": "webpack --config webpack.prod.config.js"
+    "build": "webpack --env.profile=dev --config webpack.dev.config.js",
+    "build-prod": "webpack --env.profile=prod --config webpack.prod.config.js"
   },
   "keywords": [
     "js",
@@ -26,7 +26,10 @@
   },
   "devDependencies": {
     "clean-webpack-plugin": "^3.0.0",
+    "dotenv-webpack": "^2.0.0",
     "html-webpack-plugin": "^4.3.0",
-    "uglifyjs-webpack-plugin": "^2.2.0"
+    "rename-output-webpack-plugin": "^1.0.1",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack-copy-bundle": "^0.2.6"
   }
 }

@@ -1,37 +1,50 @@
+const webpack = require('webpack');
 const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const RenameOutputPlugin = require('rename-output-webpack-plugin');
+const environment = require('./env.js'); // Custom env variables from 'env.js'
 
 //Webpack configuration
-const webpack_config = {
+module.exports = env => {
 
-	//entrypoint
-	entry: './src/LogfjsIndex.js',
+	return {
 
-	//Developemnt mode
-	mode: 'production',
+		// entrypoint
+		entry:{
+			'index': './src/LogfjsIndex.js'
+		},
 
-	//Path tu bundle
-	output: {
-		path: path.resolve(__dirname, './dist'),
-		filename: 'logfjs.prod.js',
-		library: "",
-		libraryTarget: 'umd'
-	},
+		// Production mode
+		mode: 'production',
 
-	module: {
-		rules: [
+		// Path to bundle
+		output: {
+			path: path.resolve(__dirname, './dist'),
+			filename: '[name].js',
+			library: "",
+			libraryTarget: 'umd'
+		},
+
+		// Modules
+		module: {
+			rules: [
+			// Babel loader:
 			{
 				test: /\.js$/,
 				exclude: /node_modules/,
 				use: ['babel-loader'],
 			}
+		]},
+
+		// Plugins
+		plugins: [
+		// Clean dist folder
+		new CleanWebpackPlugin(),
+		// Rename output bundle
+	    new RenameOutputPlugin({
+	    	'index': environment.LIBRARY_NAME +'.' +environment.LIBRARY_VERSION +'.' +env.profile +'.js'
+	    }),
 		]
-	},
 
-	plugins: [
-		new CleanWebpackPlugin()
-	],
+	}
 };
-
-//Export webpack config
-module.exports = webpack_config;
