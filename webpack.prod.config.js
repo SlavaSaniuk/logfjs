@@ -1,4 +1,5 @@
 const path = require('path');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 //Webpack configuration
 const webpack_config = {
@@ -7,12 +8,12 @@ const webpack_config = {
 	entry: './src/LogfjsIndex.js',
 
 	//Developemnt mode
-	mode: 'development',
+	mode: 'production',
 
 	//Path tu bundle
 	output: {
 		path: path.resolve(__dirname, './dist'),
-		filename: 'logfjs.js',
+		filename: 'logfjs.prod.js',
 		library: "",
 		libraryTarget: 'umd'
 	},
@@ -27,7 +28,9 @@ const webpack_config = {
 		]
 	},
 
-	plugins: [],
+	plugins: [
+		new CleanWebpackPlugin()
+	],
 };
 
 //Export webpack config

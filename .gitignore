@@ -1,3 +1,4 @@
 node_modules/
-dist/logfjs.js
+dist/logfjs.dev.js
+dist/logfjs.prod.js
 package-lock.json
